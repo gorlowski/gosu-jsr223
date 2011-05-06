@@ -1,0 +1,63 @@
+#-------------------------------------------------------------
+DOCUMENTATION
+#-------------------------------------------------------------
+
+This is a partially-functional JSR 223 implementation for the Gosu language.
+
+NOTE: You cannot compile this with maven without defining dependencies for 
+gw-gosu-core-api.jar. You can alternatively create an eclipse project with:
+
+mvn eclipse:eclipse
+
+compile in eclipse, and then package with
+
+mvn package
+
+#-------------------------------------------------------------
+
+Once you build a jar, put it on your classpath along with:
+
+GOS_LIB="/path/to/gosu/jars"
+
+CP=.
+
+### This is the jar 
+CP=gosu-jsr-223.jar
+
+### Core gosu jars:
+CP=$CP:$GOS_LIB/gw-asm-3.1.jar
+CP=$CP:$GOS_LIB/gw-gosu-core-api.jar
+CP=$CP:$GOS_LIB/gw-gosu-core.jar
+CP=$CP:$GOS_LIB/gw-commons-cli-1.0.jar
+
+### These might be needed for some scripts ???
+# CP=$CP:$GOS_LIB/gw-asm-analysis-3.1.jar
+# CP=$CP:$GOS_LIB/gw-asm-commons-3.1.jar
+# CP=$CP:$GOS_LIB/gw-asm-tree-3.1.jar
+# CP=$CP:$GOS_LIB/gw-asm-util-3.1.jar
+
+### Execute with:
+java -cp "$CP" YourGosuBootStrapper
+
+#-------------------------------------------------------------
+
+/*
+*   Sample java JSR 223 code:
+*/
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
+public class YourGosuBootStrapper {
+    public static void main(String[] args) {
+        ScriptEngineManager mgr = new ScriptEngineManager();
+        ScriptEngine engine = mgr.getEngineByName("gosu");
+
+        try {
+            Object ret = engine.eval("print(\"HELLO WORLD\")");
+        } catch (ScriptException e) {
+            e.printStackTrace();
+        }
+    }
+}
