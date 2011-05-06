@@ -1,8 +1,29 @@
 #-------------------------------------------------------------
-DOCUMENTATION
+OVERVIEW
 #-------------------------------------------------------------
 
 This is a partially-functional JSR 223 implementation for the Gosu language.
+
+I threw this code together after I first discovered the Gosu language:
+
+http://gosu-lang.org/
+
+Gosu itself is a finely designed, practical blend of Java and C#
+with some Ruby/Groovy closures + parse-time dynamicism
+(final types can be enhanced at parse time).
+
+Unfortunately, as of 2011-05, while much of Gosu is open source (Apache
+Licensed), the open source parts depend on closed-source internals, which
+complicate the process of creating a full JSR 223 implementation.
+
+I wasn't aware of how much was closed source until I had already thrown
+together this partially-working implementation. I'm publishing it mainly to
+give someone else a jump start if they want to create a complete JSR 223
+implementation. See the java code for additional notes.
+
+#-------------------------------------------------------------
+BUILDING
+#-------------------------------------------------------------
 
 NOTE: You cannot compile this with maven without defining dependencies for 
 gw-gosu-core-api.jar. You can alternatively create an eclipse project with:
@@ -55,6 +76,10 @@ public class YourGosuBootStrapper {
         ScriptEngine engine = mgr.getEngineByName("gosu");
 
         try {
+            // This will correctly print HELLO WORLD
+            // On my machine, the initial evaluation takes about 2 seconds,
+            // and subsequent calls to eval (once the Gosu internals are
+            // initialized), run in between 14 to 25 milliseconds
             Object ret = engine.eval("print(\"HELLO WORLD\")");
         } catch (ScriptException e) {
             e.printStackTrace();
